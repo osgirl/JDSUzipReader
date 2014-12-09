@@ -9,8 +9,9 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	string inLine;
 
-	getline(cin, argv, '/n');
+	getline(cin, inLine);
 	cout << argv << endl;
 
 	system("pause");
