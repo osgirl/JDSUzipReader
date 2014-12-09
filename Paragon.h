@@ -12,8 +12,6 @@
 #ifndef SW_PARAGON_JDSU_H
 #define SW_PARAGON_JDSU_H
 
-using namespace std;
-
-void fileParser(string, ifstream&);
+void fileParser(string, ifstream);
 
 #endif
