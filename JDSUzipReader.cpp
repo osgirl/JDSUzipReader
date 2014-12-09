@@ -12,7 +12,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	string inLine;
 
 	getline(cin, inLine);
-	cout << argv << endl;
+	cout << inLine << endl;
+	
+	 ifstream myfile (inLine);
+  if (myfile.is_open())
+  {
+    while ( getline (myfile, inLine) )
+    {
+      cout << inLine << '\n';
+    }
+    myfile.close();
+  }
+
+  else cout << "Unable to open file\n"; 
 
 	system("pause");
 	return 0;
