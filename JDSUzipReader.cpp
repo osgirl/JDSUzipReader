@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <fstream>
 
 
 int _tmain(int argc, _TCHAR* argv[])
