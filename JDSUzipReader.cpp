@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "Paragon.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,22 +10,11 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	ifstream myfile("spreadsheet.csv");
+
 	string inLine;
 
-	getline(cin, inLine);
-	cout << inLine << endl;
-	
-	 ifstream myfile (inLine);
-  if (myfile.is_open())
-  {
-    while ( getline (myfile, inLine) )
-    {
-      cout << inLine << '\n';
-    }
-    myfile.close();
-  }
-
-  else cout << "Unable to open file\n"; 
+	fileParser("spreadsheet.csv",myfile);
 
 	system("pause");
 	return 0;
