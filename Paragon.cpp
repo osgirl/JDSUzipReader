@@ -1,14 +1,17 @@
+#include "stdafx.h"
 #include "Paragon.h"
 
 using namespace std;
 
-void fileParser(string filename, ifstream paraFile){
+void fileParser(string filename, ifstream &paraFile){
 	string inLine;
 
-	while(paraFile.eof()){
-		getline(cin, inLine);
-
-		cout << inLine << "\n";
+	if (paraFile.is_open())
+	{
+		while ( getline(paraFile,inLine) )
+		{
+			cout << inLine << '\n';
+		}
+		paraFile.close();
 	}
-
 }
