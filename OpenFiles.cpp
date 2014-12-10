@@ -9,11 +9,13 @@ using namespace std;
 
 void OpenFiles::OpenSpreadSheet()
 {
-	ofstream myfile("spreadsheet.zip");
-	myfile.open("spreadsheet.zip");
-	cout << "Sucessfully Opened the spreadsheet.\n";
+	ifstream inStream("spreadsheet.csv");
+	inStream.open("spreadsheet.csv");
 
-	if(myfile.fail())
+	if(inStream.is_open())
+		cout << "Sucessfully Opened the spreadsheet.\n";
+
+	else if(inStream.fail())
 	{	
 		cout << "Failed to open the spreadsheet.\n";
 		system("pause");
@@ -24,10 +26,11 @@ void OpenFiles::OpenSpreadSheet()
 
 void OpenFiles::CloseSpreadSheet()
 {
-	ofstream myfile("spreadsheet.zip");
-	if(myfile.is_open())
+	ifstream inStream("spreadsheet.csv");
+	
+	if(inStream.is_open())
 	{
-		myfile.close();
+		inStream.close();
 		cout << "Spreadsheet closed sucessfully.\n";
 	}
 }
