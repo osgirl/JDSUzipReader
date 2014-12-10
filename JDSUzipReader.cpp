@@ -10,7 +10,7 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	ifstream myfile("spreadsheet.csv");
+	wifstream myfile("spreadsheet.csv");
 
 	string inLine;
 

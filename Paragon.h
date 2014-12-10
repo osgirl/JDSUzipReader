@@ -6,6 +6,7 @@
  */
 #include "stdafx.h"
 #include <iostream>
+#include <istream>
 #include <fstream>
 #include <string>
 
@@ -14,11 +15,16 @@
 
 using namespace std;
 
-void fileParser(string, ifstream&);
+void fileParser(string, wifstream&);
 
-class customer {
+class Customer{
 public:
-	customer();
+	Customer();
+	void setCustomerName(string,string);//First and last name
+	void setCustomerAddress(string,string);//address1 and address2
+	void setCustomerLocation(string, string, string, string);//city, state, zip, country
+	void setCustomerCompany(string);
+	void setCustomerEmail(string);
 
 private:
 	string firstname,
@@ -31,6 +37,6 @@ private:
 		zip,
 		country,
 		email;
-}
+};
 
 #endif
