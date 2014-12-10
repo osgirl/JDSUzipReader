@@ -12,7 +12,8 @@ class OpenFiles{
 
 public: 
 	
-	void OpenSpreedSheet();
+	void OpenSpreadSheet();
+	void CloseSpreadSheet();
 	void openfiles();
 
 private:

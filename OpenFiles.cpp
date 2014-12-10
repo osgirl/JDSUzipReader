@@ -7,10 +7,29 @@
 #include <string>
 using namespace std;
 
-void OpenFiles::OpenSpreedSheet()
+void OpenFiles::OpenSpreadSheet()
 {
-	ofstream myfileout("spreadsheet.zip");
-	myfileout.open("spreadsheet.zip");
+	ofstream myfile("spreadsheet.zip");
+	myfile.open("spreadsheet.zip");
+	cout << "Sucessfully Opened the spreadsheet.\n";
+
+	if(myfile.fail())
+	{	
+		cout << "Failed to open the spreadsheet.\n";
+		system("pause");
+		exit(0);
+	}
+
+}
+
+void OpenFiles::CloseSpreadSheet()
+{
+	ofstream myfile("spreadsheet.zip");
+	if(myfile.is_open())
+	{
+		myfile.close();
+		cout << "Spreadsheet closed sucessfully.\n";
+	}
 }
 
 void OpenFiles::openfiles()
