@@ -14,6 +14,7 @@ public:
 	
 	void OpenSpreadSheet();
 	void CloseSpreadSheet();
+	void set_filename(string f);
 	void openfiles();
 
 private:

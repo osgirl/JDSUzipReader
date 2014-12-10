@@ -26,13 +26,25 @@ void OpenFiles::OpenSpreadSheet()
 
 void OpenFiles::CloseSpreadSheet()
 {
+
 	ifstream inStream("spreadsheet.csv");
 	
 	if(inStream.is_open())
 	{
 		inStream.close();
-		cout << "Spreadsheet closed sucessfully.\n";
+		cout << "Sucessfully closed the spreadsheet.\n";
 	}
+}
+
+void OpenFiles::set_filename(string f){
+	filename = f;
+	
+	/*
+	//Debugging
+	cout << "f = " << f << endl;
+	cout << "filename = " << filename << endl;
+	system("pause");
+	*/
 }
 
 void OpenFiles::openfiles()
