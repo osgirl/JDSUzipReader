@@ -15,8 +15,6 @@
 
 using namespace std;
 
-void fileParser(string, ifstream&);
-
 class Customer{
 public:
 	Customer();
@@ -44,8 +42,10 @@ public:
 
 	Order();
 	Customer searchCustList(string, string, string);//first name, last name, address1
+	void printCustList();
 };
 
 void fieldString(string, Customer);
+void fileParser(string, ifstream&, Order);
 
 #endif
