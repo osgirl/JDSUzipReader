@@ -12,6 +12,25 @@
 #ifndef SW_PARAGON_JDSU_H
 #define SW_PARAGON_JDSU_H
 
-void fileParser(string, ifstream);
+using namespace std;
+
+void fileParser(string, ifstream&);
+
+class customer {
+public:
+	customer();
+
+private:
+	string firstname,
+		lastname,
+		company,
+		address,
+		address2,
+		city,
+		state,
+		zip,
+		country,
+		email;
+}
 
 #endif
