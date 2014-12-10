@@ -26,7 +26,6 @@ public:
 	void setCustomerCompany(string);
 	void setCustomerEmail(string);
 
-private:
 	string firstname,
 		lastname,
 		company,
@@ -38,5 +37,7 @@ private:
 		country,
 		email;
 };
+
+void fieldString(string, Customer);
 
 #endif

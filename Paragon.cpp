@@ -12,25 +12,66 @@ void fileParser(string filename, ifstream &paraFile){
 	if (paraFile.is_open())
 	{
 
-		while ( getline(paraFile,inLine, ','))
+		while ( getline(paraFile,inLine))
 		{
 			int lsize = inLine.size(), at = 1;
 			for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == 00) inLine[at++] = inLine[i];
 			// if there is no space behind it, skip it, it is a broken space itself
 			inLine.resize(at);
 			
-			if (count>=2) 
-			cout << inLine << '\n';
+			if (count>=5) 
+			cout << inLine << '\n' << count << "\n";
 			
 			++count;
-			++countLine;
+			//++countLine;
 
-			if(countLine==13){
-				count=0;
-				countLine=0;
-			}
+			//if(count>=5){
+				//cout << count << "\n\n\n";
+				//count=0;
+				//++countLine;
+			//}
 		}
 		paraFile.close();
+	}
+}
+void fieldString(string paraLine, Customer paraCust){
+	int done=0,
+		commaCount=0;
+	string temp;
+	for(int i=0; i<paraLine.size() || done == 10; ++i){
+		temp += paraLine[i];
+		if(commaCount==3){
+			paraCust.firstname = temp;
+			done=1;
+		} else if(commaCount==4){
+			paraCust.lastname = temp;
+			done=2;
+		} else if(commaCount==5){
+			paraCust.company = temp;
+			done=3;
+		} else if(commaCount==6){
+			paraCust.address = temp;
+			done=4;
+		} else if(commaCount==7){
+			paraCust.address2 = temp;
+			done=5;
+		} else if(commaCount==8){
+			paraCust.city = temp;
+			done=6;
+		} else if(commaCount==8){
+			paraCust.state = temp;
+			done=7;
+		} else if(commaCount==9){
+			paraCust.zip = temp;
+			done=8;
+		} else if(commaCount==10){
+			paraCust.country = temp;
+			done=9;
+		} else if(commaCount==11){
+			paraCust.email = temp;
+			done=10;
+		} else temp = "";
+
 	}
 }
 
