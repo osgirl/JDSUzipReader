@@ -98,3 +98,17 @@ void Customer::setCustomerCompany(string paraCompany){
 void Customer::setCustomerEmail(string paraEmail){
 	email = paraEmail;
 }
+
+Order::Order(){
+
+}
+Customer Order::searchCustList(string parafname, string paralname, string paraAddress){
+	for(int i=0; i < 1000; ++i){
+		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress)
+			return custList[i];
+		else if (custList[i].firstname == "")
+			return custList[i];
+	}
+	
+	return custList[999];
+}

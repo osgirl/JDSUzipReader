@@ -38,6 +38,14 @@ public:
 		email;
 };
 
+class Order{
+public:
+	Customer custList[1000];
+
+	Order();
+	Customer searchCustList(string, string, string);//first name, last name, address1
+};
+
 void fieldString(string, Customer);
 
 #endif
