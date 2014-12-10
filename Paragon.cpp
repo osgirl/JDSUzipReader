@@ -4,23 +4,31 @@
 
 using namespace std;
 
-void fileParser(string filename, wifstream &paraFile){
-	wstring inLine, line;
-	int count = 0;
+void fileParser(string filename, ifstream &paraFile){
+	string inLine, line;
+	int count = 0,
+		countLine = 0;
 
 	if (paraFile.is_open())
 	{
 
 		while ( getline(paraFile,inLine, ','))
 		{
-		//	int lsize = inLine.size(), at = 1;
-		//	for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == ' ') inLine[at++] = inLine[i];
+			int lsize = inLine.size(), at = 1;
+			for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == 00) inLine[at++] = inLine[i];
 			// if there is no space behind it, skip it, it is a broken space itself
-		//	inLine.resize(at);
+			inLine.resize(at);
 			
-			if (count>=7) 
-			cout << "After: " << inLine << '\n';
+			if (count>=2) 
+			cout << inLine << '\n';
+			
 			++count;
+			++countLine;
+
+			if(countLine==13){
+				count=0;
+				countLine=0;
+			}
 		}
 		paraFile.close();
 	}

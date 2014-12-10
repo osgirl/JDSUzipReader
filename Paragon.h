@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void fileParser(string, wifstream&);
+void fileParser(string, ifstream&);
 
 class Customer{
 public:
