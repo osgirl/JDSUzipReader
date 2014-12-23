@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void fileParser(string filename, ifstream &paraFile, Order paraOrder){
+void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 	string inLine, line;
 	int count = 0,
 		countLine = 0;
@@ -15,108 +15,90 @@ void fileParser(string filename, ifstream &paraFile, Order paraOrder){
 		{
 			int lsize = inLine.size(), at = 1;
 			for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == 00) inLine[at++] = inLine[i];
-			// if there is no space behind it, skip it, it is a broken space itself
 			inLine.resize(at);
-			
-			if (count>=5) 
-			cout << inLine << '\n' << count << "\n";
-			
-			//for(int i=0; i < 2; ++i){
-			//if (count>=5) 
-				fieldString(inLine, paraOrder.custList[0]);
+
+			//if(count>=7){
+				fieldString(filename, inLine, paraOrder);
 			//}
 
 			++count;
-			//++countLine;
-
-			//if(count>=5){
-			//	cout << count << "\n\n\n";
-				//count=0;
-				//++countLine;
-			//}
 		}
 		paraFile.close();
 	}
 }
 
 //Needs to be fed the file not the string of the line
-void fieldString(string paraLine, Customer &paraCust){
+void fieldString(string paraName, string paraLine, Order &paraOrder){
 	int done=0,
 		commaCount=0;
 	string temp = "";
 
-	cout << "Debug for the fieldString function: \n"
-		<< "paraLine: " << paraLine << "\n"
-		<< "paraLine is " << paraLine.length() << " long\n";
+	Customer paraCust;
 
-	for(int i=0; i<paraLine.length()-1 && done == 10 && paraLine[i]=='\n'; ++i){
-		cout << "paraLine[" << i << "]: " << paraLine[i] << "\n";
-		if(paraLine[i]!=',') temp = temp + paraLine[i];
+	for(int i=0; i<paraLine.length()-1 && done != 10 && paraLine[i]!='\n'; ++i){
+		if(paraLine[i]!=','){
+			temp = temp + paraLine[i];
+		}
 		else{ 
 			++commaCount;
-
-			cout << i;
 		
-			if(commaCount==3 && done == 0){
+			if(commaCount==3 && temp != "First Name"){
 				paraCust.firstname = temp;
 				done=1;
 				temp = "";
-				cout << "commaCount is 3\n";
+				//paraOrder.addCustomer(paraCust);
 			} else if(commaCount==4 && done == 1){
 				paraCust.lastname = temp;
 				done=2;
 				temp = "";
-				cout << "commaCount is 4\n";
+				//paraOrder.addCustomer(paraCust);
 			} else if(commaCount==5 && done == 2){
 				paraCust.company = temp;
 				done=3;
 				temp = "";
-				cout << "commaCount is 5\n";
 			} else if(commaCount==6 && done == 3){
 				paraCust.address = temp;
 				done=4;
 				temp = "";
-				cout << "commaCount is 6\n";
 			} else if(commaCount==7 && done == 4){
 				paraCust.address2 = temp;
 				done=5;
 				temp = "";
-				cout << "commaCount is 7\n";
 			} else if(commaCount==8 && done == 5){
 				paraCust.city = temp;
 				done=6;
 				temp = "";
-				cout << "commaCount is 8\n";
 			} else if(commaCount==9 && done == 6){
 				paraCust.state = temp;
 				done=7;
 				temp = "";
-				cout << "commaCount is 9\n";
 			} else if(commaCount==10 && done == 7){
 				paraCust.zip = temp;
 				done=8;
 				temp = "";
-				cout << "commaCount is 10\n";
 			} else if(commaCount==11 && done == 8){
 				paraCust.country = temp;
 				done=9;
 				temp = "";
-				cout << "commaCount is 11\n";
 			} else if(commaCount==12 && done == 9){
 				paraCust.email = temp;
 				done=10;
 				temp = "";
-				cout << "commaCount is 12\n";
-				paraCust.printCustomer();
+				paraOrder.addCustomer(paraCust);
+				cout << paraCust;
 			} else if(paraLine[i]==',') temp = "";
 		}
-		if(paraLine[i]=='\n') done = 10;
+		if(paraLine[i]=='\n'){
+			done = 10;
+			paraOrder.addCustomer(paraCust);
+			commaCount = 0;
+		}
 	}
 }
 
 //=================================================================
 //
-//Class: Customer
+//  Class: Customer
 //
 //=================================================================
 Customer::Customer(){
@@ -144,48 +126,108 @@ void Customer::setCustomerEmail(string paraEmail){
 }
 void Customer::printCustomer(){
 	cout << "//=== Printing Customer ========================================= \n"
-		<< "Customer Name: " << firstname << " " << lastname << "\n";
+		<< "Customer Name: " << firstname << " " << lastname << "\n"
+		<< "Customer Company: " << company << "\n"
+		<< "Customer Address: " << address + " " + city + ", " + state + " " + country + " " + zip + "\n";  
+}
+ostream& operator<<(ostream& co, const Customer paraCust)
+{
+    co << "//=== Printing Customer ========================================= \n"
+		<< "Customer Name: " << paraCust.firstname << " " << paraCust.lastname << "\n"
+		<< "Customer Company: " << paraCust.company << "\n"
+		<< "Customer Address: " << paraCust.address + " " + paraCust.city + ", " + paraCust.state + " " + paraCust.country + " " + paraCust.zip + "\n"; 
+    return co;
 }
 
 //=================================================================
 //
-//Class: Order
+//  Class: Order
 //
 //=================================================================
 Order::Order(){
-
+	custList.reserve(100);
+	itemList.reserve(13);
 }
-Customer Order::searchCustList(string parafname, string paralname, string paraAddress){
-	for(int i=0; i < 1000; ++i){
+bool Order::searchCustList(string parafname, string paralname, string paraAddress){
+	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress)
-			return custList[i];
+			return true;
 		else if (custList[i].firstname == "")
-			return custList[i];
+			return true;
 	}
-	
-	return custList[999];
+	return false;
 }
-Customer Order::searchCustList(string paraAddress){
-	for(int i=0; i < 1000; ++i){
+bool Order::searchCustList(string paraAddress){
+	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].address == paraAddress)
-			return custList[i];
+			return true;
 		else if (custList[i].firstname == "")
-			return custList[i];
+			return true;
 	}
-	
-	return custList[999];
+	return false;
 }
-Customer Order::searchCustList(string parafname, string paralname){
-	for(int i=0; i < 1000; ++i){
+bool Order::searchCustList(string parafname, string paralname){
+	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].firstname == parafname && custList[i].lastname == paralname)
-			return custList[i];
+			return true;
 		else if (custList[i].firstname == "")
-			return custList[i];
+			return false;
 	}
 	
-	return custList[999];
+	return false;
 }
 void Order::printCustList(){
 	cout << "Printing Customer List\n";
 	cout << custList[0].firstname << " " << custList[0].lastname << "\n";
+	//cout << custList.at(0).firstname << " " << custList.at(0).lastname << "\n";
+}
+void Order::printOrders(){
+	ofstream printFile;
+	printFile.open("orders.csv");
+	printFile << "";
+	printFile.close();
+}
+void Order::addCustomer(Customer paraCust){
+	if(!searchCustList(paraCust.firstname, paraCust.lastname, paraCust.address)){
+		custList.push_back(paraCust);
+	}
+}
+void Order::addItem(Item paraItem){
+	if(!searchItemList(paraItem.itemName)){
+		itemList.push_back(paraItem);
+	}
+}
+void Order::modifyShipRecord(){
+	ofstream shipFile;
+	shipFile.open("shipping.csv");
+	shipFile << "\"Ship-date\",\"ticket-no\",\"attention\",\"name\",\"address1\",\"address2\",\"city\",\"state\",\"zip\",\"shipping msg\",\"na\",\"ship-via\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"email address\",\"phone\",\"shipping msg2\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\"\n";
+	
+//	for(int i=0; i<custList.size()-1 ;++i){
+//		shipFile << "\"Ship-date\"," << "j"<< 1 << "," << custList[i].firstname << " " << custList[i].lastname << "," << custList[i].company
+//			<< "," << custList[i].address << "," << custList[i].address2 <<  "," << custList[i].city << "," << custList[i].state << "," 
+//			<< custList[i].zip << "," << "\"shipping msg\",\"na\",\"ship-via\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"email address\",\"phone\",\"shipping msg2\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\"\n";
+//	}
+	
+	
+
+	shipFile.close();
+}
+bool Order::searchItemList(string paraItemName){
+	for(int i=0; i < custList.size(); ++i){
+		if(itemList.at(i).itemName == paraItemName)
+			return true;
+	}
+	return false;
+}
+
+//=================================================================
+//
+//  Class: Location
+//
+//=================================================================
+
+ostream& operator<<(ostream& co, const Location dt)
+{
+    co << dt.isle << dt.section << '/' << dt.hieght;
+    return co;
 }

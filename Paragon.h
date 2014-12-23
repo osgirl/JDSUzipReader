@@ -9,11 +9,29 @@
 #include <istream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #ifndef SW_PARAGON_JDSU_H
 #define SW_PARAGON_JDSU_H
 
 using namespace std;
+
+class Location{
+public:
+	string isle,
+		section,
+		hieght;
+
+	friend ostream& operator<<(ostream& co, const Location dt);
+};
+
+class Item{
+public:
+	string itemName,
+		quantity;
+	Location local;
+	int weight;
+};
 
 class Customer{
 public:
@@ -24,6 +42,8 @@ public:
 	void setCustomerCompany(string);
 	void setCustomerEmail(string);
 	void printCustomer();
+
+	friend ostream& operator<<(ostream& co, const Customer);
 
 	string firstname,
 		lastname,
@@ -36,21 +56,28 @@ public:
 		country,
 		email;
 
-
+	vector<Item> custOrder;
 };
 
 class Order{
 public:
-	Customer custList[1000];
+	vector<Customer> custList;
+	vector<Item> itemList;
 
 	Order();
-	Customer searchCustList(string, string, string);//first name, last name, address1
-	Customer searchCustList(string, string);//first name, last name
-	Customer searchCustList(string);//address1
+	bool searchCustList(string, string, string);//first name, last name, address1
+	bool searchCustList(string, string);//first name, last name
+	bool searchCustList(string);//address1
+	bool searchItemList(string);//item name
 	void printCustList();
+
+	void printOrders();
+	void addCustomer(Customer);
+	void addItem(Item);
+	void modifyShipRecord();
 };
 
-void fieldString(string, Customer&);
-void fileParser(string, ifstream&, Order);
+void fieldString(string, string, Order&);
+void fileParser(string, ifstream&, Order&);
 
 #endif
