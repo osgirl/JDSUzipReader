@@ -23,6 +23,7 @@ public:
 	void setCustomerLocation(string, string, string, string);//city, state, zip, country
 	void setCustomerCompany(string);
 	void setCustomerEmail(string);
+	void printCustomer();
 
 	string firstname,
 		lastname,
@@ -34,6 +35,8 @@ public:
 		zip,
 		country,
 		email;
+
+
 };
 
 class Order{
@@ -42,10 +45,12 @@ public:
 
 	Order();
 	Customer searchCustList(string, string, string);//first name, last name, address1
+	Customer searchCustList(string, string);//first name, last name
+	Customer searchCustList(string);//address1
 	void printCustList();
 };
 
-void fieldString(string, Customer);
+void fieldString(string, Customer&);
 void fileParser(string, ifstream&, Order);
 
 #endif
