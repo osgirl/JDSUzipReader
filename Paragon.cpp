@@ -35,61 +35,63 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 
 	Customer paraCust;
 
-	for(int i=0; i<paraLine.length()-1 && done != 10 && paraLine[i]!='\n'; ++i){
+	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
 			temp = temp + paraLine[i];
 		}
 		else{ 
 			++commaCount;
 		
-			if(commaCount==3 && temp != "First Name"){
-				paraCust.firstname = temp;
+			if (commaCount==1 && temp != "UserFormSubmit"){
+				paraCust.orderNumber = temp;
 				done=1;
 				temp = "";
-				//paraOrder.addCustomer(paraCust);
-			} else if(commaCount==4 && done == 1){
-				paraCust.lastname = temp;
+			} else if(commaCount==3 && done == 1 && temp != "First Name"){
+				paraCust.firstname = temp;
 				done=2;
 				temp = "";
-				//paraOrder.addCustomer(paraCust);
-			} else if(commaCount==5 && done == 2){
-				paraCust.company = temp;
+			} else if(commaCount==4 && done == 2){
+				paraCust.lastname = temp;
 				done=3;
 				temp = "";
-			} else if(commaCount==6 && done == 3){
-				paraCust.address = temp;
+			} else if(commaCount==5 && done == 3){
+				paraCust.company = temp;
 				done=4;
 				temp = "";
-			} else if(commaCount==7 && done == 4){
-				paraCust.address2 = temp;
+			} else if(commaCount==6 && done ==4){
+				paraCust.address = temp;
 				done=5;
 				temp = "";
-			} else if(commaCount==8 && done == 5){
-				paraCust.city = temp;
+			} else if(commaCount==7 && done == 5){
+				paraCust.address2 = temp;
 				done=6;
 				temp = "";
-			} else if(commaCount==9 && done == 6){
-				paraCust.state = temp;
+			} else if(commaCount==8 && done == 6){
+				paraCust.city = temp;
 				done=7;
 				temp = "";
-			} else if(commaCount==10 && done == 7){
-				paraCust.zip = temp;
+			} else if(commaCount==9 && done == 7){
+				paraCust.state = temp;
 				done=8;
 				temp = "";
-			} else if(commaCount==11 && done == 8){
-				paraCust.country = temp;
+			} else if(commaCount==10 && done == 8){
+				paraCust.zip = temp;
 				done=9;
 				temp = "";
-			} else if(commaCount==12 && done == 9){
-				paraCust.email = temp;
+			} else if(commaCount==11 && done == 9){
+				paraCust.country = temp;
 				done=10;
+				temp = "";
+			} else if(commaCount==12 && done == 10){
+				paraCust.email = temp;
+				done=11;
 				temp = "";
 				paraOrder.addCustomer(paraCust);
 				cout << paraCust;
 			} else if(paraLine[i]==',') temp = "";
 		}
 		if(paraLine[i]=='\n'){
-			done = 10;
+			done = 11;
 			paraOrder.addCustomer(paraCust);
 			commaCount = 0;
 		}
@@ -124,12 +126,6 @@ void Customer::setCustomerCompany(string paraCompany){
 void Customer::setCustomerEmail(string paraEmail){
 	email = paraEmail;
 }
-void Customer::printCustomer(){
-	cout << "//=== Printing Customer ========================================= \n"
-		<< "Customer Name: " << firstname << " " << lastname << "\n"
-		<< "Customer Company: " << company << "\n"
-		<< "Customer Address: " << address + " " + city + ", " + state + " " + country + " " + zip + "\n";  
-}
 ostream& operator<<(ostream& co, const Customer paraCust)
 {
     co << "//=== Printing Customer ========================================= \n"
@@ -137,6 +133,13 @@ ostream& operator<<(ostream& co, const Customer paraCust)
 		<< "Customer Company: " << paraCust.company << "\n"
 		<< "Customer Address: " << paraCust.address + " " + paraCust.city + ", " + paraCust.state + " " + paraCust.country + " " + paraCust.zip + "\n"; 
     return co;
+}
+double Customer::getWeightTotal(){
+	int sum =0;
+	for(int i=0; i<custOrder.size(); ++i){
+		sum = custOrder[i].weight;
+	}
+	return sum;
 }
 
 //=================================================================
@@ -197,16 +200,21 @@ void Order::addItem(Item paraItem){
 		itemList.push_back(paraItem);
 	}
 }
+
+//Pay extra for thrid party shipping. 
+//Not in the scope of the overview
 void Order::modifyShipRecord(){
 	ofstream shipFile;
-	shipFile.open("shipping.csv");
-	shipFile << "\"Ship-date\",\"ticket-no\",\"attention\",\"name\",\"address1\",\"address2\",\"city\",\"state\",\"zip\",\"shipping msg\",\"na\",\"ship-via\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"email address\",\"phone\",\"shipping msg2\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\"\n";
+	shipFile.open("batch_shipment.csv");
+	shipFile << "COMPANYNAME,ADDRESS,CITY,ST,POSTALCODE,FNAME,LNAME,PHONENUMBER,REFTWO,REFONE,TPAcct,PACKWEIGHT,CID,UPSSERVICE,COUNTRY,BILLTRANS,PACKTYPE,PROFILE,TPName,TPAddress1,TPCity,TPState,TPCountry,TPZIP\n";
 	
-//	for(int i=0; i<custList.size()-1 ;++i){
-//		shipFile << "\"Ship-date\"," << "j"<< 1 << "," << custList[i].firstname << " " << custList[i].lastname << "," << custList[i].company
-//			<< "," << custList[i].address << "," << custList[i].address2 <<  "," << custList[i].city << "," << custList[i].state << "," 
-//			<< custList[i].zip << "," << "\"shipping msg\",\"na\",\"ship-via\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"email address\",\"phone\",\"shipping msg2\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\",\"na\"\n";
-//	}
+	for(int i=0; i<custList.size() ;++i){
+		shipFile << custList[i].company << "," << custList[i].address << " " << custList[i].address2 << ","
+			<< custList[i].city << ',' << custList[i].state << ',' << custList[i].zip << ',' << custList[i].firstname << ','
+			<< custList[i].lastname << ',' << ',' << "REFTWO" << ',' << "REFONE" << ',' << "TPAcct" << ',' << getWeightTotal(custList[i]) << ','
+			<< ',' << "GROUND" << ',' << custList[i].country << ',' << "SHIPPER" << ',' << "CP" << ',' 
+			<< "PROFILE" << ",,,,\n";
+	}
 	
 	
 
@@ -218,6 +226,9 @@ bool Order::searchItemList(string paraItemName){
 			return true;
 	}
 	return false;
+}
+double Order::getWeightTotal(Customer paraCust){
+	return paraCust.getWeightTotal();
 }
 
 //=================================================================

@@ -28,22 +28,23 @@ public:
 class Item{
 public:
 	string itemName,
-		quantity;
+		quantity,
+		itemNumber;
 	Location local;
-	int weight;
+	double weight;
 };
 
 class Customer{
 public:
 	Customer();
-	void setCustomerName(string,string);//First and last name
-	void setCustomerAddress(string,string);//address1 and address2
-	void setCustomerLocation(string, string, string, string);//city, state, zip, country
-	void setCustomerCompany(string);
-	void setCustomerEmail(string);
-	void printCustomer();
+	void	setCustomerName(string,string);//First and last name
+	void	setCustomerAddress(string,string);//address1 and address2
+	void	setCustomerLocation(string, string, string, string);//city, state, zip, country
+	void	setCustomerCompany(string);
+	void	setCustomerEmail(string);
+	double	getWeightTotal();
 
-	friend ostream& operator<<(ostream& co, const Customer);
+	friend	ostream& operator<<(ostream& co, const Customer);
 
 	string firstname,
 		lastname,
@@ -54,7 +55,8 @@ public:
 		state,
 		zip,
 		country,
-		email;
+		email,
+		orderNumber;
 
 	vector<Item> custOrder;
 };
@@ -65,16 +67,17 @@ public:
 	vector<Item> itemList;
 
 	Order();
-	bool searchCustList(string, string, string);//first name, last name, address1
-	bool searchCustList(string, string);//first name, last name
-	bool searchCustList(string);//address1
-	bool searchItemList(string);//item name
-	void printCustList();
+	bool	searchCustList(string, string, string);//first name, last name, address1
+	bool	searchCustList(string, string);//first name, last name
+	bool	searchCustList(string);//address1
+	bool	searchItemList(string);//item name
+	void	printCustList();
+	double	getWeightTotal(Customer);
 
-	void printOrders();
-	void addCustomer(Customer);
-	void addItem(Item);
-	void modifyShipRecord();
+	void	printOrders();
+	void	addCustomer(Customer);
+	void	addItem(Item);
+	void	modifyShipRecord();
 };
 
 void fieldString(string, string, Order&);
