@@ -34,6 +34,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 	string temp = "";
 
 	Customer paraCust;
+	Item testItem("123","250","Baseball", 2);
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
@@ -58,7 +59,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 				paraCust.company = temp;
 				done=4;
 				temp = "";
-			} else if(commaCount==6 && done ==4){
+			} else if(commaCount==6 && done == 4){
 				paraCust.address = temp;
 				done=5;
 				temp = "";
@@ -86,8 +87,9 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 				paraCust.email = temp;
 				done=11;
 				temp = "";
-				paraOrder.addCustomer(paraCust);
-				cout << paraCust;
+				if(!paraOrder.addCustomer(paraCust)) paraOrder.addCustItem(paraCust, testItem);
+				else paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
+//				cout << paraCust;
 			} else if(paraLine[i]==',') temp = "";
 		}
 		if(paraLine[i]=='\n'){
@@ -151,6 +153,14 @@ Order::Order(){
 	custList.reserve(100);
 	itemList.reserve(13);
 }
+Customer Order::getCustomer(string parafname, string paralname, string paraAddress){
+	for(int i=0; i < custList.size(); ++i){
+		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress){
+			cout << custList[i];
+			return custList[i];
+		}
+	}
+}
 bool Order::searchCustList(string parafname, string paralname, string paraAddress){
 	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress)
@@ -179,28 +189,56 @@ bool Order::searchCustList(string parafname, string paralname){
 	
 	return false;
 }
+bool Order::addCustomer(Customer paraCust){
+	if(!searchCustList(paraCust.firstname, paraCust.lastname, paraCust.address)){
+		custList.push_back(paraCust);
+		return true;
+	}
+	return false;
+}
+bool Order::addItem(Item paraItem){
+	if(!searchItemList(paraItem.itemName)){
+		itemList.push_back(paraItem);
+		return true;
+	}
+	return false;
+}
+bool Order::addCustItem(Customer& paraCust, Item paraItem){
+//	cout << paraCust;
+	
+	paraCust.custOrder.push_back(paraItem);
+
+	cout << "Customer item has been added" << paraItem.itemName<<"\n";
+	
+	//if(!searchCustItemList(paraCust, paraItem.itemName)){
+//		paraCust.custOrder.push_back(paraItem);
+//		return true;
+//	}
+	return true;
+}
 void Order::printCustList(){
 	cout << "Printing Customer List\n";
 	cout << custList[0].firstname << " " << custList[0].lastname << "\n";
-	//cout << custList.at(0).firstname << " " << custList.at(0).lastname << "\n";
 }
 void Order::printOrders(){
 	ofstream printFile;
 	printFile.open("orders.csv");
-	printFile << "";
+	printFile << "JDSU Order Report\n\n";
+
+	for(int i=0; i<custList.size(); ++i){
+		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
+		printFile << custList[i].firstname << " " << custList[i].lastname << '\n';
+		printFile << custList[i].address << '\n' << custList[i].address2 << "\n\n";
+		printFile << "Item List\n" << "Order size: " << custList[i].custOrder.size() << '\n' ;
+
+		for(int j=0; j<custList[i].custOrder.size();++i){
+			printFile << custList[i].custOrder[j].local << ',' << custList[i].custOrder[j].itemNumber << ',' << custList[i].custOrder[j].itemName << '\n';
+		}
+		printFile << "\n\n";
+	}
+
 	printFile.close();
 }
-void Order::addCustomer(Customer paraCust){
-	if(!searchCustList(paraCust.firstname, paraCust.lastname, paraCust.address)){
-		custList.push_back(paraCust);
-	}
-}
-void Order::addItem(Item paraItem){
-	if(!searchItemList(paraItem.itemName)){
-		itemList.push_back(paraItem);
-	}
-}
-
 //Pay extra for thrid party shipping. 
 //Not in the scope of the overview
 void Order::modifyShipRecord(){
@@ -221,8 +259,15 @@ void Order::modifyShipRecord(){
 	shipFile.close();
 }
 bool Order::searchItemList(string paraItemName){
-	for(int i=0; i < custList.size(); ++i){
-		if(itemList.at(i).itemName == paraItemName)
+	for(int i=0; i < itemList.size(); ++i){
+		if(itemList[i].itemName == paraItemName)
+			return true;
+	}
+	return false;
+}
+bool Order::searchCustItemList(Customer paraCust, string paraItemName){
+	for(int i=0; i < paraCust.custOrder.size(); ++i){
+		if(paraCust.custOrder[i].itemName == paraItemName)
 			return true;
 	}
 	return false;
@@ -241,4 +286,18 @@ ostream& operator<<(ostream& co, const Location dt)
 {
     co << dt.isle << dt.section << '/' << dt.hieght;
     return co;
+}
+
+//=================================================================
+//
+//  Class: Item
+//
+//=================================================================
+
+Item::Item(string paraItemNumber, string paraQuan, string paraItemName , double paraWeight){
+	itemNumber = paraItemNumber;
+	quantity = paraQuan;
+	itemName = paraItemName;
+//	local = paraLocal;
+	weight = paraWeight;
 }

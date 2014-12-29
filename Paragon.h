@@ -32,6 +32,9 @@ public:
 		itemNumber;
 	Location local;
 	double weight;
+
+	Item();
+	Item(string, string, string, double);//itemName,Quan, ItemNumber, Local, weight
 };
 
 class Customer{
@@ -67,17 +70,20 @@ public:
 	vector<Item> itemList;
 
 	Order();
-	bool	searchCustList(string, string, string);//first name, last name, address1
-	bool	searchCustList(string, string);//first name, last name
-	bool	searchCustList(string);//address1
-	bool	searchItemList(string);//item name
-	void	printCustList();
-	double	getWeightTotal(Customer);
+	Customer	getCustomer(string, string, string);
+	bool		searchCustList(string, string, string);//first name, last name, address1
+	bool		searchCustList(string, string);//first name, last name
+	bool		searchCustList(string);//address1
+	bool		searchItemList(string);//item name
+	bool		searchCustItemList(Customer, string);
+	void		printCustList();
+	double		getWeightTotal(Customer);
 
-	void	printOrders();
-	void	addCustomer(Customer);
-	void	addItem(Item);
-	void	modifyShipRecord();
+	void		printOrders();
+	bool		addCustomer(Customer);
+	bool		addItem(Item);
+	bool		addCustItem(Customer&, Item);
+	void		modifyShipRecord();
 };
 
 void fieldString(string, string, Order&);
