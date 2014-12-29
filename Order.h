@@ -1,11 +1,9 @@
 //header
-
 #include "stdafx.h"
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
-
 
 #ifndef MES_PARAGON_ORDER_H_
 #define MES_PARAGON_ORDER_H_

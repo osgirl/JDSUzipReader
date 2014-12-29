@@ -11,6 +11,7 @@ using namespace std;
 
 void Order::OpenShipper()
 {
+	string itemName, quantity, bin;
 	string DataInFile, substring;
 	ifstream myFile("shipper.csv");
 	int commaPos;
@@ -34,8 +35,8 @@ void Order::OpenShipper()
 
 			//This is a test to just get the filenames and open them.
 			// Might put it into it's own function
+			//cout <<"line size "<< DataInFile.length() << endl;
 			
-			cout <<"line size "<< DataInFile.length() << endl;
 			//Parse the line and stop at the first comma.
 			for(int i = 0; i < DataInFile.length(); i++)
 			{
@@ -45,18 +46,29 @@ void Order::OpenShipper()
 				{	
 					//debugging
 					//cout << "in the special condiction for the comma\n";
-					cout << DataInFile.at(i) << endl;
+					//cout << DataInFile.at(i) << endl;
 					commaPos = i;
-					cout << "commaPos = " << commaPos << endl;
-					cout << "i = "<< i << endl;
+					//cout << "commaPos = " << commaPos << endl;
+					//cout << "i = "<< i << endl;
 					
 					// creates a substring with just the filename.
 					for(int j = 0; j < commaPos; ++j)
 					{
-						cout << DataInFile.at(j);
+						//cout << DataInFile.at(j);
+						itemName = DataInFile.substr(0,i-2);
 					}
-					//Debugging.
-					//system("pause");
+
+					// creates a substring quantity
+					for(int k =0; k < commaPos; ++k)
+					{
+						quantity = DataInFile.substr(i-1, 1);
+					}
+
+					//creates a substring location
+					for(int l = 0; l < commaPos; ++l)
+					{
+						bin = DataInFile.substr(i+1, 3);
+					}
 					
 				}
 			}
@@ -65,7 +77,9 @@ void Order::OpenShipper()
 
 			//for debugging
 			//cout << "getline is done\n";
-			cout << DataInFile;
+			//cout << DataInFile;
+			cout << itemName << " " << quantity << " "  << bin;
+
 			cout << endl;
 		}
 	}
