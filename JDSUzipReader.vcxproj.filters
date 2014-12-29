@@ -27,7 +27,7 @@
     <ClInclude Include="Paragon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenFiles.h">
+    <ClInclude Include="Shipper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -39,9 +39,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Paragon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenFiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
