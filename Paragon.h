@@ -9,13 +9,29 @@
 #include <istream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #ifndef SW_PARAGON_JDSU_H
 #define SW_PARAGON_JDSU_H
 
 using namespace std;
 
-void fileParser(string, ifstream&);
+class Location{
+public:
+	string isle,
+		section,
+		hieght;
+
+	friend ostream& operator<<(ostream& co, const Location dt);
+};
+
+class Item{
+public:
+	string itemName,
+		quantity;
+	Location local;
+	int weight;
+};
 
 class Customer{
 public:
@@ -25,6 +41,9 @@ public:
 	void setCustomerLocation(string, string, string, string);//city, state, zip, country
 	void setCustomerCompany(string);
 	void setCustomerEmail(string);
+	void printCustomer();
+
+	friend ostream& operator<<(ostream& co, const Customer);
 
 	string firstname,
 		lastname,
@@ -36,8 +55,29 @@ public:
 		zip,
 		country,
 		email;
+
+	vector<Item> custOrder;
 };
 
-void fieldString(string, Customer);
+class Order{
+public:
+	vector<Customer> custList;
+	vector<Item> itemList;
+
+	Order();
+	bool searchCustList(string, string, string);//first name, last name, address1
+	bool searchCustList(string, string);//first name, last name
+	bool searchCustList(string);//address1
+	bool searchItemList(string);//item name
+	void printCustList();
+
+	void printOrders();
+	void addCustomer(Customer);
+	void addItem(Item);
+	void modifyShipRecord();
+};
+
+void fieldString(string, string, Order&);
+void fileParser(string, ifstream&, Order&);
 
 #endif
