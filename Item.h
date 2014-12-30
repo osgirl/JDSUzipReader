@@ -20,17 +20,17 @@ using namespace std;
 
 class Item{
 public:
-	string itemName,
-		quantity,
-		itemNumber;
+	string		itemName,
+				quantity,
+				itemNumber;
 
-	Location local;
+	Location	local;
 
-	double weight;
+	double		weight;
 
-	Item();
-	Item(string, string, string, double);//itemName, Quan, ItemNumber, Local, weight
-	Item(string, string, string, Location, double);//itemName, Quan, ItemNumber, Local, weight
+			Item		();
+			Item		(string, string, string, double);//itemName, Quan, ItemNumber, Local, weight
+			Item		(string, string, string, Location, double);//itemName, Quan, ItemNumber, Local, weight
 };
 
 #endif

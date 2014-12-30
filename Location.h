@@ -19,11 +19,14 @@ using namespace std;
 
 class Location{
 public:
-	string isle,
-		section,
-		hieght;
+	string		isle,
+				section,
+				height;
 
-	friend ostream& operator<<(ostream& co, const Location dt);
+	Location();
+	Location(string,string,string);//isle,section,height
+
+	friend ostream&		operator<<		(ostream& co, const Location dt);
 };
 
 #endif

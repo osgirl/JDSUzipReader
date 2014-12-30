@@ -22,8 +22,8 @@ using namespace std;
 
 class Order{
 public:
-	vector<Customer> custList;
-	vector<Item> itemList;
+	vector<Customer>	custList;
+	vector<Item>		itemList;
 
 	Order();
 	Customer	getCustomer(string, string, string);//first name, last name, address1
@@ -42,7 +42,7 @@ public:
 	void		modifyShipRecord();
 };
 
-void fieldString(string, string, Order&);
-void fileParser(string, ifstream&, Order&);
+void	fieldString		(string, string, Order&);
+void	fileParser		(string, ifstream&, Order&);
 
 #endif

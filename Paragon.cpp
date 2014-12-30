@@ -160,7 +160,7 @@ bool Order::addItem(Item paraItem){
 	return false;
 }
 bool Order::addCustItem(Customer& paraCust, Item paraItem){
-	paraCust.addCustItem(paraItem);
+	paraCust.addCustItem(paraItem, paraCust);
 	return true;
 }
 void Order::printCustList(){

@@ -28,21 +28,21 @@ public:
 	void	setCustomerCompany(string);
 	void	setCustomerEmail(string);
 	double	getWeightTotal();
-	bool	addCustItem(Item);
+	bool	addCustItem(Item, Customer&);
 
 	friend	ostream& operator<<(ostream& co, const Customer);
 
-	string firstname,
-		lastname,
-		company,
-		address,
-		address2,
-		city,
-		state,
-		zip,
-		country,
-		email,
-		orderNumber;
+	string	firstname,
+			lastname,
+			company,
+			address,
+			address2,
+			city,
+			state,
+			zip,
+			country,
+			email,
+			orderNumber;
 
 	vector<Item> custOrder;
 };
