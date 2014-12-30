@@ -46,8 +46,6 @@ double Customer::getWeightTotal(){
 	return sum;
 }
 bool Customer::addCustItem(Item paraItem){
-	cout << "Before Shit happens: " << custOrder.size() << '\n';
 	custOrder.push_back(paraItem);
-	cout << "After Shit happens: " << custOrder.size() << '\n';
 	return true;
 }

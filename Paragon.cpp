@@ -4,6 +4,12 @@
 
 using namespace std;
 
+void fileDriver(Order& orders){
+	ifstream myfile("spreadsheet.csv");
+
+	fileParser("spreadsheet.csv",myfile,orders);
+}
+
 void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 	string inLine, line;
 	int count = 0,
@@ -33,7 +39,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 
 	Customer paraCust;
 
-	Item testItem("123","250","Baseball", 2);//ItemNumber, Quan, Name, weight
+	Item testItem("123","250","Baseball", 2); //ItemNumber, Quan, Name, weight
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
@@ -88,8 +94,6 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 				temp = "";
 				if(!paraOrder.addCustomer(paraCust)) paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
 				else paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
-				cout << "After Shit happens again: (If 1 system works) " << paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address).custOrder.size() << '\n';
-				cout << paraCust << "\n\n\n";
 			} else if(paraLine[i]==',') temp = "";
 		}
 		if(paraLine[i]=='\n'){
@@ -161,9 +165,7 @@ bool Order::addItem(Item paraItem){
 	return false;
 }
 bool Order::addCustItem(Customer& paraCust, Item paraItem){
-	cout << "Before Shit happens: " << paraCust.custOrder.size() << '\n';
 	paraCust.addCustItem(paraItem);
-	cout << "After Shit happens: " << paraCust.custOrder.size() << '\n';
 	return true;
 }
 void Order::printCustList(){
