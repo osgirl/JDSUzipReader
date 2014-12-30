@@ -17,9 +17,7 @@ void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 			for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == 00) inLine[at++] = inLine[i];
 			inLine.resize(at);
 
-			//if(count>=7){
-				fieldString(filename, inLine, paraOrder);
-			//}
+			fieldString(filename, inLine, paraOrder);
 
 			++count;
 		}
@@ -34,7 +32,8 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 	string temp = "";
 
 	Customer paraCust;
-	Item testItem("123","250","Baseball", 2);
+
+	Item testItem("123","250","Baseball", 2);//ItemNumber, Quan, Name, weight
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
@@ -87,9 +86,9 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 				paraCust.email = temp;
 				done=11;
 				temp = "";
-				if(!paraOrder.addCustomer(paraCust)) paraOrder.addCustItem(paraCust, testItem);
+				if(!paraOrder.addCustomer(paraCust)) paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
 				else paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
-//				cout << paraCust;
+				cout << "After Shit happens again: " << paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address).custOrder.size() << '\n';
 			} else if(paraLine[i]==',') temp = "";
 		}
 		if(paraLine[i]=='\n'){
@@ -100,49 +99,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 	}
 }
 
-//=================================================================
-//
-//  Class: Customer
-//
-//=================================================================
-Customer::Customer(){
 
-}
-void Customer::setCustomerName(string fname,string lname){
-	firstname = fname;
-	lastname = lname;
-}
-void Customer::setCustomerAddress(string address1,string address22){
-	address = address1;
-	address2 = address22;
-}
-void Customer::setCustomerLocation(string paraCity, string paraState, string paraZip, string paraCountry){
-	city = paraCity;
-	state = paraState;
-	zip = paraZip;
-	country = paraCountry;
-}
-void Customer::setCustomerCompany(string paraCompany){
-	company = paraCompany;
-}
-void Customer::setCustomerEmail(string paraEmail){
-	email = paraEmail;
-}
-ostream& operator<<(ostream& co, const Customer paraCust)
-{
-    co << "//=== Printing Customer ========================================= \n"
-		<< "Customer Name: " << paraCust.firstname << " " << paraCust.lastname << "\n"
-		<< "Customer Company: " << paraCust.company << "\n"
-		<< "Customer Address: " << paraCust.address + " " + paraCust.city + ", " + paraCust.state + " " + paraCust.country + " " + paraCust.zip + "\n"; 
-    return co;
-}
-double Customer::getWeightTotal(){
-	int sum =0;
-	for(int i=0; i<custOrder.size(); ++i){
-		sum = custOrder[i].weight;
-	}
-	return sum;
-}
 
 //=================================================================
 //
@@ -156,7 +113,6 @@ Order::Order(){
 Customer Order::getCustomer(string parafname, string paralname, string paraAddress){
 	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress){
-			cout << custList[i];
 			return custList[i];
 		}
 	}
@@ -204,16 +160,7 @@ bool Order::addItem(Item paraItem){
 	return false;
 }
 bool Order::addCustItem(Customer& paraCust, Item paraItem){
-//	cout << paraCust;
-	
-	paraCust.custOrder.push_back(paraItem);
-
-	cout << "Customer item has been added" << paraItem.itemName<<"\n";
-	
-	//if(!searchCustItemList(paraCust, paraItem.itemName)){
-//		paraCust.custOrder.push_back(paraItem);
-//		return true;
-//	}
+	paraCust.addCustItem(paraItem);
 	return true;
 }
 void Order::printCustList(){
@@ -225,11 +172,14 @@ void Order::printOrders(){
 	printFile.open("orders.csv");
 	printFile << "JDSU Order Report\n\n";
 
+	printFile << "Number of Customers: " << custList.size() << '\n';
+	printFile << "Number of Total Items: " << itemList.size() << '\n';
+
 	for(int i=0; i<custList.size(); ++i){
 		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
 		printFile << custList[i].firstname << " " << custList[i].lastname << '\n';
 		printFile << custList[i].address << '\n' << custList[i].address2 << "\n\n";
-		printFile << "Item List\n" << "Order size: " << custList[i].custOrder.size() << '\n' ;
+		printFile << "Item List\n" << "Order size: ," << custList[i].custOrder.size() << '\n' ;
 
 		for(int j=0; j<custList[i].custOrder.size();++i){
 			printFile << custList[i].custOrder[j].local << ',' << custList[i].custOrder[j].itemNumber << ',' << custList[i].custOrder[j].itemName << '\n';
@@ -274,30 +224,4 @@ bool Order::searchCustItemList(Customer paraCust, string paraItemName){
 }
 double Order::getWeightTotal(Customer paraCust){
 	return paraCust.getWeightTotal();
-}
-
-//=================================================================
-//
-//  Class: Location
-//
-//=================================================================
-
-ostream& operator<<(ostream& co, const Location dt)
-{
-    co << dt.isle << dt.section << '/' << dt.hieght;
-    return co;
-}
-
-//=================================================================
-//
-//  Class: Item
-//
-//=================================================================
-
-Item::Item(string paraItemNumber, string paraQuan, string paraItemName , double paraWeight){
-	itemNumber = paraItemNumber;
-	quantity = paraQuan;
-	itemName = paraItemName;
-//	local = paraLocal;
-	weight = paraWeight;
 }
