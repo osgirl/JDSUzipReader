@@ -24,6 +24,8 @@ public:
 				quantity,
 				itemNumber;
 
+	friend	ostream& operator<<(ostream& co, const Item);
+
 	Location	local;
 
 	double		weight;

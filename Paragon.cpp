@@ -5,9 +5,15 @@
 using namespace std;
 
 void fileDriver(Order& orders){
-	ifstream myfile("spreadsheet.csv");
+	ifstream myfile;
+	string filename = "";
 
-	fileParser("spreadsheet.csv",myfile,orders);
+	for(int i=0; i<orders.itemList.size();++i){
+		filename = orders.itemList[i].itemName + ".csv";
+		myfile.open(filename);
+	}
+
+	fileParser(filename,myfile,orders);
 }
 
 void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
@@ -178,7 +184,7 @@ void Order::printOrders(){
 	printFile << "JDSU Order Report\n\n";
 
 	printFile << "Number of Customers: " << custList.size() << '\n';
-	printFile << "Number of Total Items: \n";// << itemList.size() << '\n\n\n';
+	printFile << "Number of Total Items: " << itemList.size() << "\n\n\n";
 
 	for(int i=0; i<custList.size(); ++i){
 		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
