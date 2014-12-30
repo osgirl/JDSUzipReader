@@ -10,11 +10,13 @@ using namespace std;
 
 void OpenShipper()
 {
-	string itemName, quantity, bin;
+	// Variable Definitions
+	string itemName, quantity, bin, weight;
 	string DataInFile, substring;
-	ifstream myFile("shipper.csv");
 	int commaCount = 0;
 	
+	ifstream myFile("shipper.csv");
+
 	if(myFile.is_open())
 	{
 		// for debuging
@@ -38,39 +40,52 @@ void OpenShipper()
 			for(int i = 0; i < DataInFile.length(); i++)
 			{
 				if(commaCount == 0 && DataInFile[i] != ',')
-				{
-					cout << DataInFile[i];
+				{ 
+					//cout << "comma Count (0) \n";
+					//cout << DataInFile[i];
 					//create name substr
+						itemName = DataInFile[i];
+						cout << itemName;
 				}
 
 				if(commaCount == 1 && DataInFile[i] != ',')
 				{
-					cout << DataInFile[i];
+					//cout << "comma Count (1) \n";
+					//cout << DataInFile[i];
 					//create quantity substr
+						quantity = DataInFile[i];
+						cout << quantity;
 				}
 
 				if(commaCount == 2 && DataInFile[i] != ',')
 				{
-					cout << DataInFile[i];
+					//cout << "comma Count (2) \n";
+					//cout << DataInFile[i];
 					//create bin or location substr
+						bin = DataInFile[i];
+						cout << bin;
+				}
+
+				if(commaCount == 3 && DataInFile[i] != ',')
+				{
+					weight = DataInFile[i];
+					cout << weight;
 				}
 
 				if(DataInFile[i] == ',')
 				{
 					commaCount++;
 					cout << endl;
+					//cout << "commaCount: " << commaCount << endl;
+					//for debugging
 					//cout << "comma position = " << i << endl;
 				}
 
-				else
+				else if(commaCount != 0 || commaCount != 1 || commaCount != 2)
+				{
 					commaCount = 0;
-			
-
+				}
 			}//end of For Loop
-
-			// best choice so far.
-			std::cout << itemName;
-				//<< bin;
 			std::cout << endl;		
 
 		}//end of while loop
