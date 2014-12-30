@@ -28,7 +28,7 @@ public:
 	void	setCustomerCompany(string);
 	void	setCustomerEmail(string);
 	double	getWeightTotal();
-	bool	addCustItem(Item, Customer&);
+	bool	addCustItem(Item);
 
 	friend	ostream& operator<<(ostream& co, const Customer);
 

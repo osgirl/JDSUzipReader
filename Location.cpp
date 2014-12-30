@@ -23,3 +23,8 @@ Location::Location(){
 	section = "1";
 	height = "1";
 }
+Location::Location(string paraRawInput){
+	isle = paraRawInput[0];
+	section = paraRawInput[1];
+	height = paraRawInput[3];
+}

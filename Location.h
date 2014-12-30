@@ -25,6 +25,7 @@ public:
 
 	Location();
 	Location(string,string,string);//isle,section,height
+	Location(string);//Whole raw string
 
 	friend ostream&		operator<<		(ostream& co, const Location dt);
 };

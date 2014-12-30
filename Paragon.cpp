@@ -88,7 +88,8 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 				temp = "";
 				if(!paraOrder.addCustomer(paraCust)) paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
 				else paraOrder.addCustItem(paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address), testItem);
-				cout << "After Shit happens again: " << paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address).custOrder.size() << '\n';
+				cout << "After Shit happens again: (If 1 system works) " << paraOrder.getCustomer(paraCust.firstname, paraCust.lastname, paraCust.address).custOrder.size() << '\n';
+				cout << paraCust << "\n\n\n";
 			} else if(paraLine[i]==',') temp = "";
 		}
 		if(paraLine[i]=='\n'){
@@ -110,7 +111,7 @@ Order::Order(){
 	custList.reserve(100);
 	itemList.reserve(13);
 }
-Customer Order::getCustomer(string parafname, string paralname, string paraAddress){
+Customer& Order::getCustomer(string parafname, string paralname, string paraAddress){
 	for(int i=0; i < custList.size(); ++i){
 		if(custList[i].firstname == parafname && custList[i].lastname == paralname && custList[i].address == paraAddress){
 			return custList[i];
@@ -160,7 +161,9 @@ bool Order::addItem(Item paraItem){
 	return false;
 }
 bool Order::addCustItem(Customer& paraCust, Item paraItem){
-	paraCust.addCustItem(paraItem, paraCust);
+	cout << "Before Shit happens: " << paraCust.custOrder.size() << '\n';
+	paraCust.addCustItem(paraItem);
+	cout << "After Shit happens: " << paraCust.custOrder.size() << '\n';
 	return true;
 }
 void Order::printCustList(){
@@ -173,18 +176,18 @@ void Order::printOrders(){
 	printFile << "JDSU Order Report\n\n";
 
 	printFile << "Number of Customers: " << custList.size() << '\n';
-	printFile << "Number of Total Items: " << itemList.size() << '\n';
+	printFile << "Number of Total Items: \n";// << itemList.size() << '\n\n\n';
 
 	for(int i=0; i<custList.size(); ++i){
 		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
 		printFile << custList[i].firstname << " " << custList[i].lastname << '\n';
 		printFile << custList[i].address << '\n' << custList[i].address2 << "\n\n";
-		printFile << "Item List\n" << "Order size: ," << custList[i].custOrder.size() << '\n' ;
+		printFile << "Item List\n" << "Item name,Item Number, BIN Location\n";
 
-		for(int j=0; j<custList[i].custOrder.size();++i){
-			printFile << custList[i].custOrder[j].local << ',' << custList[i].custOrder[j].itemNumber << ',' << custList[i].custOrder[j].itemName << '\n';
+		for(int j=0; j<custList[i].custOrder.size();++j){
+			printFile << custList[i].custOrder[j].itemName << ',' << custList[i].custOrder[j].itemNumber << ',' << custList[i].custOrder[j].local << '\n';
 		}
-		printFile << "\n\n";
+		printFile << "\n\n\n\n";
 	}
 
 	printFile.close();

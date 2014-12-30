@@ -26,7 +26,7 @@ public:
 	vector<Item>		itemList;
 
 	Order();
-	Customer	getCustomer(string, string, string);//first name, last name, address1
+	Customer&	getCustomer(string, string, string);//first name, last name, address1
 	bool		searchCustList(string, string, string);//first name, last name, address1
 	bool		searchCustList(string, string);//first name, last name
 	bool		searchCustList(string);//address1
