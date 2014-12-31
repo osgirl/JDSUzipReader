@@ -1,9 +1,9 @@
-item,quantity,location,weight
-Fiber Posters Sample Data,2,A1/0,1.1,
-HST 3000 Sample Data,2,B1/0,1.3,
-LTE Poster Sample Data,3,C1/0,1.5,
-Reference Guides Sample Data,3,D1/1,1.7,
-Triple Play Sample Data,4,E1/0,1.8,
-TrueSpeed Sampe Data,4,F1/0,1.9,
-World of 100G Sample Data,5,G1/0,2.2,
-xDSL Sample Data,5,H1/0,2.4,
+item,quantity,itemNumber,location,weight
+Fiber Posters Sample Data,2,99999,A1/0,1.1
+HST 3000 Sample Data,2,88888,B1/0,1.3
+LTE Poster Sample Data,3,77777,C1/0,1.5
+Reference Guides Sample Data,3,66666,D1/1,1.7
+Triple Play Sample Data,4,55555,E1/0,1.8
+TrueSpeed Sampe Data,4,44444,F1/0,1.9
+World of 100G Sample Data,5,33333,G1/0,2.2
+xDSL Sample Data,5,22222,H1/0,2.4
