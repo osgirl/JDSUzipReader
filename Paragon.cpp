@@ -43,7 +43,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder, Item paraIt
 
 	Customer paraCust;
 
-	Item testItem(paraItem.itemNumber,paraItem.quantity,paraName.substr(13,paraName.length()-17),paraItem.local, 2); //ItemNumber, Quan, Name, weight
+	Item testItem(paraItem.itemNumber,paraItem.quantity,paraName.substr(13,paraName.length()-17),paraItem.local, paraItem.weight); //ItemNumber, Quan, Name, weight
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){

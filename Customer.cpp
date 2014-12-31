@@ -41,7 +41,7 @@ ostream& operator<<(ostream& co, const Customer paraCust)
 double Customer::getWeightTotal(){
 	int sum =0;
 	for(int i=0; i<custOrder.size(); ++i){
-		sum = custOrder[i].weight;
+		sum += custOrder[i].weight;
 	}
 	return sum;
 }
