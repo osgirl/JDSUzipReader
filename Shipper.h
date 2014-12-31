@@ -57,7 +57,6 @@ void OpenShipper(Order& orders)
 						MikesItem.itemNumber = temp;
 						temp = "";
 						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						commaCount = 0;
 						cout << MikesItem << '\n'; 
 							//<< "CommaCount: " << commaCount;
 					} else if(commaCount==4){
@@ -67,19 +66,10 @@ void OpenShipper(Order& orders)
 					} else if(commaCount==5){
 						MikesItem.weight = string_to_double(temp);
 						temp = "";
-						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						cout << MikesItem << '\n';
-						//<< "CommaCount: " << commaCount;
+						//if(MikesItem.itemName == "item")orders.addItem(MikesItem);
+						//cout << MikesItem.weight << '\n'; 
+							//<< "CommaCount: " << commaCount;
 					} 
-					/*
-					else if(commaCount==6){
-						MikesItem.itemNumber = temp;
-						temp = "";
-						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						commaCount = 0;
-						cout << MikesItem << '\n' << "CommaCount: " << commaCount;
-					} 
-					*/
 				}
 			}
 			getline(myFile, DataInFile);
