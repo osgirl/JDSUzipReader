@@ -10,12 +10,11 @@ void fileDriver(Order& orders){
 
 	for(int i=0; i<orders.itemList.size();++i){
 		filename = "spreadsheets\\" + orders.itemList[i].itemName + ".csv";
-		cout << "Filename is: " << filename << '\n';
 		myfile.open(filename);
-		fileParser(filename,myfile,orders);
+		fileParser(filename,myfile,orders,orders.itemList[i]);
 	}
 }
-void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
+void fileParser(string filename, ifstream &paraFile, Order &paraOrder, Item paraItem){
 	string inLine, line;
 	int count = 0,
 		countLine = 0;
@@ -28,7 +27,7 @@ void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 			for(int i = 1; i < lsize-1; ++i) if(inLine[i-1] == 00) inLine[at++] = inLine[i];
 			inLine.resize(at);
 
-			fieldString(filename, inLine, paraOrder);
+			fieldString(filename, inLine, paraOrder, paraItem);
 
 			++count;
 		}
@@ -37,15 +36,14 @@ void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 }
 
 //Needs to be fed the file not the string of the line
-void fieldString(string paraName, string paraLine, Order &paraOrder){
+void fieldString(string paraName, string paraLine, Order &paraOrder, Item paraItem){
 	int done=0,
 		commaCount=0;
 	string temp = "";
 
 	Customer paraCust;
 
-	//filename[14];
-	Item testItem("123","250",paraName.substr(13,paraName.length()-17), 2); //ItemNumber, Quan, Name, weight
+	Item testItem(paraItem.itemNumber,paraItem.quantity,paraName.substr(13,paraName.length()-17),paraItem.local, 2); //ItemNumber, Quan, Name, weight
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
@@ -187,6 +185,7 @@ void Order::printOrders(){
 	printFile << "Number of Total Items: " << itemList.size() << "\n\n\n";
 
 	for(int i=0; i<custList.size(); ++i){
+		printFile << "||=============================\n";
 		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
 		printFile << custList[i].firstname << " " << custList[i].lastname << '\n';
 		printFile << custList[i].address << '\n' << custList[i].address2 << "\n\n";

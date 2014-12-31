@@ -37,8 +37,9 @@ void OpenShipper(Order& orders)
 	if( myFile.is_open() ){
 		getline( myFile, DataInFile );
 		while( !myFile.eof() ){
+			getline(myFile, DataInFile);
 			string temp = "";
-			if(DataInFile == "item,quantity,itemNumber,location,weight"){
+			if(DataInFile == "item,quantity,itemNumber,location,weight,"){
 				DataInFile = "";
 			}
 			for(int i=0; i < DataInFile.length() && DataInFile[i] != '\n' && commaCount != 6; ++i){
@@ -59,17 +60,13 @@ void OpenShipper(Order& orders)
 						Location MikesLocation(temp);
 						MikesItem.local = MikesLocation;
 						temp = "";
-						//if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						//cout << MikesItem << '\n';
 					} else {
 						MikesItem.weight = string_to_double(temp);
 						temp = "";
 						if(MikesItem.itemName != "item")orders.addItem(MikesItem);
-						cout << MikesItem << '\n';
 					} 
 				}
 			}
-			getline(myFile, DataInFile);
 			commaCount=0;
 		}
 	}

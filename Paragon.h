@@ -42,8 +42,8 @@ public:
 	void		modifyShipRecord();
 };
 
-void	fieldString		(string, string, Order&);
-void	fileParser		(string, ifstream&, Order&);
+void	fieldString		(string, string, Order&, Item);
+void	fileParser		(string, ifstream&, Order&, Item);
 void	fileDriver		(Order&);
 
 #endif

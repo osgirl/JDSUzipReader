@@ -19,9 +19,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	OpenShipper(orders);
 
 	fileDriver(orders);
-	
-	//ifstream myfile("spreadsheet.csv");
-	//fileParser("spreadsheet.csv",myfile,orders);
 
 	orders.printOrders();
 	orders.modifyShipRecord();
