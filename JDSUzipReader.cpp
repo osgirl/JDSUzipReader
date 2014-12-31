@@ -2,27 +2,32 @@
 //
 
 #include "stdafx.h"
-//#include "Paragon.h"
-#include "OpenFiles.h"
+#include "Paragon.h"
+#include "Customer.h"
+#include "Item.h"
+#include "Location.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "Shipper.h"
 using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	OpenFiles OF;
-	OF.OpenSpreadSheet();
-	OF.CloseSpreadSheet();
+	Order orders;
 
+	OpenShipper(orders);
 
+	fileDriver(orders);
+	
 	//ifstream myfile("spreadsheet.csv");
+	//fileParser("spreadsheet.csv",myfile,orders);
 
-	//string inLine;
-
-	//fileParser("spreadsheet.csv",myfile);
+	orders.printOrders();
+	orders.modifyShipRecord();
 
 	system("pause");
+
 	return 0;
 }
 
