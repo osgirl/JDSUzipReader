@@ -9,13 +9,12 @@ void fileDriver(Order& orders){
 	string filename = "";
 
 	for(int i=0; i<orders.itemList.size();++i){
-		filename = orders.itemList[i].itemName + ".csv";
+		filename = "spreadsheets\\" + orders.itemList[i].itemName + ".csv";
+		cout << "Filename is: " << filename << '\n';
 		myfile.open(filename);
+		fileParser(filename,myfile,orders);
 	}
-
-	fileParser(filename,myfile,orders);
 }
-
 void fileParser(string filename, ifstream &paraFile, Order &paraOrder){
 	string inLine, line;
 	int count = 0,
@@ -45,7 +44,8 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 
 	Customer paraCust;
 
-	Item testItem("123","250","Baseball", 2); //ItemNumber, Quan, Name, weight
+	//filename[14];
+	Item testItem("123","250",paraName.substr(13,paraName.length()-17), 2); //ItemNumber, Quan, Name, weight
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
@@ -54,7 +54,7 @@ void fieldString(string paraName, string paraLine, Order &paraOrder){
 		else{ 
 			++commaCount;
 		
-			if (commaCount==1 && temp != "UserFormSubmit"){
+			if (commaCount==1 && temp != "UserFormSubmit\""){
 				paraCust.orderNumber = temp;
 				done=1;
 				temp = "";

@@ -38,13 +38,12 @@ void OpenShipper(Order& orders)
 		getline( myFile, DataInFile );
 		while( !myFile.eof() ){
 			string temp = "";
-			//cout << "DataInFile: \n" << DataInFile << '\n'; (NOT NECESSARY - says Mike)
 			if(DataInFile == "item,quantity,itemNumber,location,weight"){
 				DataInFile = "";
 			}
 			for(int i=0; i < DataInFile.length() && DataInFile[i] != '\n' && commaCount != 6; ++i){
 				if( DataInFile[i]!=',' ){
-				temp = temp + DataInFile[i];
+					temp = temp + DataInFile[i];
 				} else { 
 					++commaCount;
 					if (commaCount==1){
@@ -56,30 +55,18 @@ void OpenShipper(Order& orders)
 					} else if(commaCount==3){
 						MikesItem.itemNumber = temp;
 						temp = "";
-						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						commaCount = 0;
-						cout << MikesItem << '\n'; 
-							//<< "CommaCount: " << commaCount;
 					} else if(commaCount==4){
 						Location MikesLocation(temp);
 						MikesItem.local = MikesLocation;
 						temp = "";
-					} else if(commaCount==5){
+						//if(MikesItem.itemName == "item")orders.addItem(MikesItem);
+						//cout << MikesItem << '\n';
+					} else {
 						MikesItem.weight = string_to_double(temp);
 						temp = "";
-						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
+						if(MikesItem.itemName != "item")orders.addItem(MikesItem);
 						cout << MikesItem << '\n';
-						//<< "CommaCount: " << commaCount;
 					} 
-					/*
-					else if(commaCount==6){
-						MikesItem.itemNumber = temp;
-						temp = "";
-						if(MikesItem.itemName == "item")orders.addItem(MikesItem);
-						commaCount = 0;
-						cout << MikesItem << '\n' << "CommaCount: " << commaCount;
-					} 
-					*/
 				}
 			}
 			getline(myFile, DataInFile);
