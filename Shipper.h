@@ -10,10 +10,11 @@
 #include "Paragon.h"
 using namespace std;
 
-
 //fills up items
 void OpenShipper(Order& orders)
 {
+	double totalWeight = 0;
+
 	string item_Name,
 		shipperQuantity,
 		itemNumber,
@@ -50,11 +51,23 @@ void OpenShipper(Order& orders)
 						MikesItem.local = MikesLocation;
 						temp = "";
 					} else {				
-						double converted;
-						stringstream ss;
-						ss << temp;
-						ss >> converted;
-						MikesItem.weight = ceil(converted);
+						double convertWeight, convertQuantity, subWeight;
+						
+						stringstream cw, cq;
+						cq << MikesItem.quantity;
+						cq >> convertQuantity;
+						cw << temp;
+						cw >> convertWeight;
+						MikesItem.weight = convertWeight;
+
+						subWeight = convertQuantity * convertWeight;
+						totalWeight += subWeight;
+
+						cout << "weight: " << convertWeight  
+							<< " quantity: " << convertQuantity << " "
+							<< "subW: " << subWeight << " "
+							<< "tw: " << totalWeight <<endl;
+						
 						temp = "";
 						if(MikesItem.itemName != "item")orders.addItem(MikesItem);
 					} 
@@ -63,5 +76,7 @@ void OpenShipper(Order& orders)
 			commaCount=0;
 		}
 	}
+	cout << "rounded up weight: " << ceil(totalWeight) << endl;
+	system("pause");
 	myFile.close();
 }
