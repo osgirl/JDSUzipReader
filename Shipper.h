@@ -6,20 +6,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <math.h>
 #include "Paragon.h"
 using namespace std;
-
-
-double string_to_double( const std::string& weight )
-{
-   std::istringstream i(weight);
-   double x;
-   if (!(i >> x))
-   {
-	return 0;
-   }
-   return x;
-}
 
 
 //fills up items
@@ -60,8 +49,12 @@ void OpenShipper(Order& orders)
 						Location MikesLocation(temp);
 						MikesItem.local = MikesLocation;
 						temp = "";
-					} else {
-						MikesItem.weight = string_to_double(temp);
+					} else {				
+						double converted;
+						stringstream ss;
+						ss << temp;
+						ss >> converted;
+						MikesItem.weight = ceil(converted);
 						temp = "";
 						if(MikesItem.itemName != "item")orders.addItem(MikesItem);
 					} 
