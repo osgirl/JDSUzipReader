@@ -21,9 +21,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	fileDriver(orders);
 
 	orders.printOrders();
+	orders.printPickOrders();
 	orders.modifyShipRecord();
-
-	system("pause");
 
 	return 0;
 }

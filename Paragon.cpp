@@ -47,12 +47,13 @@ void fieldString(string paraName, string paraLine, Order &paraOrder, Item paraIt
 
 	for(int i=0; i<paraLine.length()-1 && done != 11 && paraLine[i]!='\n'; ++i){
 		if(paraLine[i]!=','){
-			temp = temp + paraLine[i];
+			if(paraLine[i] != '"') 
+				temp = temp + paraLine[i];
 		}
 		else{ 
 			++commaCount;
 		
-			if (commaCount==1 && temp != "UserFormSubmit\""){
+			if (commaCount==1 && temp != "UserFormSubmit"){
 				paraCust.orderNumber = temp;
 				done=1;
 				temp = "";
@@ -164,6 +165,7 @@ bool Order::addCustomer(Customer paraCust){
 bool Order::addItem(Item paraItem){
 	if(!searchItemList(paraItem.itemName)){
 		itemList.push_back(paraItem);
+		consolidatedCount.push_back(1);
 		return true;
 	}
 	return false;
@@ -189,7 +191,7 @@ void Order::printOrders(){
 		printFile << "Order Reference Number: " << custList[i].orderNumber << '\n';
 		printFile << custList[i].firstname << " " << custList[i].lastname << '\n';
 		printFile << custList[i].address << '\n' << custList[i].address2 << "\n\n";
-		printFile << "Item List\n" << "Item name,Item Number, BIN Location\n";
+		printFile << "Item List\n" << "Item name,Item Number, BIN\n";
 
 		for(int j=0; j<custList[i].custOrder.size();++j){
 			printFile << custList[i].custOrder[j].itemName << ',' << custList[i].custOrder[j].itemNumber << ',' << custList[i].custOrder[j].local << '\n';
@@ -198,6 +200,32 @@ void Order::printOrders(){
 	}
 
 	printFile.close();
+}
+void Order::printPickOrders(){
+	ofstream printFile;
+	printFile.open("consolidatedPickList.csv");
+	printFile << "JDSU Picking Report\n\n";
+
+	consolidateOrder();
+
+	printFile << "Item List\n" << "Item name,Item Number, BIN, Quantity\n";
+	for(int i=0; i<consolidatedCount.size(); ++i){
+
+		printFile << itemList[i].itemName << ',' << itemList[i].itemNumber << ',' << itemList[i].local << ',' << consolidatedCount[i]-1 <<'\n';
+
+		printFile << "\n";
+	}
+	printFile.close();
+}
+void Order::consolidateOrder(){
+	for(int i=0; i<custList.size(); ++i){
+		for(int j=0; j<custList[i].custOrder.size();++j){
+			for(int k=0; k<itemList.size(); ++k){
+				if(custList[i].custOrder[j].itemName == itemList[k].itemName)
+					consolidatedCount[k] = consolidatedCount[k] + 1;
+			}
+		}
+	}
 }
 //Pay extra for thrid party shipping. 
 //Not in the scope of the overview

@@ -24,6 +24,7 @@ class Order{
 public:
 	vector<Customer>	custList;
 	vector<Item>		itemList;
+	vector<int>			consolidatedCount;
 
 	Order();
 	Customer&	getCustomer(string, string, string);//first name, last name, address1
@@ -36,6 +37,8 @@ public:
 	double		getWeightTotal(Customer);
 
 	void		printOrders();
+	void		printPickOrders();
+	void		consolidateOrder();
 	bool		addCustomer(Customer);
 	bool		addItem(Item);
 	bool		addCustItem(Customer&, Item);
